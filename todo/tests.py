@@ -114,3 +114,30 @@ class TodoViewTestCase(TestCase):
         response = client.get('/1/')
 
         self.assertEqual(response.status_code, 404)
+
+    def test_index_post_empty_title(self):
+        client = Client()
+        data = {'title': '', 'due_at': '2024-06-30 23:59:59'}
+        response = client.post('/', data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 0)
+
+    def test_index_post_empty_due_at(self):
+        client = Client()
+        data = {'title': 'Test Task', 'due_at': ''}
+        response = client.post('/', data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 0)
+
+    def test_index_post_empty_both(self):
+        client = Client()
+        data = {'title': '', 'due_at': ''}
+        response = client.post('/', data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 0)

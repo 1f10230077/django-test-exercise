@@ -7,6 +7,27 @@
     <meta charset="UTF-8">
     <meta name="author" content="INIAD">
   </head>
+  <script>
+const checkForm = () => {
+  const titleInput = document.getElementById('titleInput');
+  const dueInput = document.getElementById('dueInput');
+  const submitButton = document.querySelector('button[type="submit"]');
+  
+  submitButton.disabled = !(titleInput.value.trim() !== '' && dueInput.value !== '');
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const titleInput = document.getElementById('titleInput');
+  const dueInput = document.getElementById('dueInput');
+  const submitButton = document.querySelector('button[type="submit"]');
+
+  titleInput.addEventListener('input', checkForm);
+  dueInput.addEventListener('input', checkForm);
+
+  // 初期状態でボタンを無効化
+  submitButton.disabled = true;
+});
+  </script>
 
   <body>
     <h1>Sample To Do Application</h1>
