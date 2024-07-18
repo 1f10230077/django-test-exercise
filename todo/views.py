@@ -10,10 +10,10 @@ def index(request):
     if request.method == 'POST':
         title = request.POST['title']
         due_at_str = request.POST['due_at']
-        
+        memo = request.POST.get('memo' ,'')        
         if title and due_at_str:
             due_at = make_aware(parse_datetime(due_at_str))
-            task = Task(title=title, due_at=due_at)
+            task = Task(title=title, due_at=due_at, memo = memo)
             task.save()
 
     if request.GET.get('order') == 'due':
@@ -47,6 +47,7 @@ def update(request, task_id):
     if request.method == 'POST':
         task.title = request.POST['title']
         task.due_at = make_aware(parse_datetime(request.POST['due_at']))
+        task.memo = request.POST['memo']
         task.save()
         return redirect(detail, task_id)
     context = {
