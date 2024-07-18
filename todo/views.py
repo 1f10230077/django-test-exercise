@@ -3,6 +3,7 @@ from django.http import Http404
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from todo.models import Task
+import random
 
 
 # Create your views here.
@@ -71,4 +72,22 @@ def close(request, task_id):
         raise Http404("Task does not exist")
     task.completed = True
     task.save()
-    return redirect(index)
+    return redirect('omikuji')
+
+def OMIKUJI(request):
+    fortune = random.randint(1, 6)
+    fortuneMessage = ''
+
+    if fortune == 1:
+        fortuneMessage = '大吉'
+    elif fortune == 2 or fortune == 3:
+        fortuneMessage = '吉'
+    elif fortune == 4 or fortune == 5:
+        fortuneMessage = '小吉'
+    elif fortune == 6:
+        fortuneMessage = '凶'
+
+    data = {
+        'fortune':fortuneMessage
+    }
+    return render(request, 'todo/omikuji.html', data)
